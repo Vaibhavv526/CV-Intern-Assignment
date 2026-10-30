@@ -1,0 +1,20 @@
+{
+  "tracker_version": "v3",
+  "source_video": "data/input_video.mp4",
+  "output_path": "outputs/tracked_video_v3.mp4",
+  "width": 640,
+  "height": 360,
+  "fps": 24.0,
+  "total_frames_processed": 1440,
+  "duration_sec": 60.0,
+  "file_size_mb": 6.82,
+  "frames_with_2_detected": 565,
+  "frames_with_1_detected": 215,
+  "frames_with_0_detected": 660,
+  "all_observed_ids": [
+    1,
+    2
+  ],
+  "tracking_method": "Gated Hungarian Assignment + Size-Relative Costs + Stale Box Suppression (v3)",
+  "video_status": "VERIFIED_PLAYABLE"
+}

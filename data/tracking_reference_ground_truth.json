@@ -1,0 +1,307 @@
+{
+  "description": "Manual reference ground truth for Task 4 egg tracking across 10 milestone frames",
+  "milestones": {
+    "entry_resting": [
+      240,
+      300
+    ],
+    "pre_spin_interaction": [
+      450,
+      480
+    ],
+    "fast_spin_separated": [
+      575,
+      600,
+      625
+    ],
+    "stop_test_interaction": [
+      750
+    ],
+    "second_spin_reposition": [
+      850,
+      920
+    ]
+  },
+  "frames": {
+    "240": {
+      "timestamp_sec": 10.0,
+      "phase": "entry_resting",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            25,
+            172,
+            88,
+            71
+          ],
+          "state": "DETECTED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            112,
+            181,
+            86,
+            75
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "300": {
+      "timestamp_sec": 12.5,
+      "phase": "resting_idle",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            25,
+            173,
+            87,
+            70
+          ],
+          "state": "DETECTED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            112,
+            182,
+            87,
+            74
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "450": {
+      "timestamp_sec": 18.8,
+      "phase": "resting_pre_spin",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            25,
+            173,
+            87,
+            70
+          ],
+          "state": "DETECTED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            112,
+            182,
+            87,
+            74
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "480": {
+      "timestamp_sec": 20.0,
+      "phase": "hand_approaching",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            25,
+            170,
+            87,
+            75
+          ],
+          "state": "DETECTED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            112,
+            180,
+            87,
+            76
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "575": {
+      "timestamp_sec": 24.0,
+      "phase": "fast_spin_egg2",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            60,
+            160,
+            75,
+            75
+          ],
+          "state": "OCCLUDED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            381,
+            204,
+            84,
+            74
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "600": {
+      "timestamp_sec": 25.0,
+      "phase": "fast_spin_egg2",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            60,
+            160,
+            75,
+            75
+          ],
+          "state": "OCCLUDED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            386,
+            205,
+            75,
+            74
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "625": {
+      "timestamp_sec": 26.0,
+      "phase": "spin_slowing",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            60,
+            160,
+            75,
+            75
+          ],
+          "state": "OCCLUDED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            377,
+            203,
+            93,
+            73
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "750": {
+      "timestamp_sec": 31.2,
+      "phase": "hand_stop_touch",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            30,
+            165,
+            85,
+            75
+          ],
+          "state": "DETECTED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            190,
+            160,
+            65,
+            60
+          ],
+          "state": "OCCLUDED"
+        }
+      ]
+    },
+    "850": {
+      "timestamp_sec": 35.4,
+      "phase": "second_spin",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            28,
+            165,
+            80,
+            75
+          ],
+          "state": "DETECTED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            340,
+            213,
+            98,
+            77
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    },
+    "920": {
+      "timestamp_sec": 38.3,
+      "phase": "both_visible_post_spin",
+      "eggs": [
+        {
+          "id": 1,
+          "label": "Egg #1 (Left)",
+          "bbox": [
+            29,
+            156,
+            85,
+            72
+          ],
+          "state": "DETECTED"
+        },
+        {
+          "id": 2,
+          "label": "Egg #2 (Right)",
+          "bbox": [
+            368,
+            223,
+            89,
+            72
+          ],
+          "state": "DETECTED"
+        }
+      ]
+    }
+  }
+}

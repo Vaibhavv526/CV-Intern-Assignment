@@ -1,0 +1,20 @@
+{
+  "tracker_version": "v2",
+  "source_video": "data/input_video.mp4",
+  "output_path": "outputs/tracked_video_v2.mp4",
+  "width": 640,
+  "height": 360,
+  "fps": 24.0,
+  "total_frames_processed": 1440,
+  "duration_sec": 60.0,
+  "file_size_mb": 7.22,
+  "frames_with_2_eggs": 513,
+  "frames_with_1_egg": 143,
+  "frames_with_0_eggs": 784,
+  "all_observed_ids": [
+    1,
+    2
+  ],
+  "tracking_method": "Hungarian Bipartite Assignment + Damped Kinematics + State Machine (v2)",
+  "video_status": "VERIFIED_PLAYABLE"
+}

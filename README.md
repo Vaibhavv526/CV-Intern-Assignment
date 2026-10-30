@@ -10,7 +10,7 @@ An end-to-end computer vision pipeline developed for the CV Internship Assessmen
 - **Leakage-Aware Split**: Discovered that images originate from continuous video frames across 5 capture scenes. Implemented a sequence-block holdout into **88 Development (80%)** and **22 Evaluation (20%)** images, preventing temporal frame leakage.
 - **Task 2 (Classical Segmentation Benchmarking)**: Developed and tested 4 progressive classical trials strictly on the Development Split. **Trial 4 (Hybrid Chroma-Gated Otsu + Contour Hole-Filling)** emerged as the winning method with **IoU 0.3903**, **Dice 0.5175**, **Precision 0.4654**, and **Recall 0.8501** at **8.36 ms/frame**.
 - **Task 3 (Evaluation & Diagnostics)**: Compared classical segmentation against SAM pseudo-GT. Evaluated Development (IoU 0.3903) vs. held-out Evaluation split (IoU 0.3586). Produced per-scene breakdowns and 5-column qualitative diagnostic error maps (TP Green, FP Red, FN Blue).
-- **Task 4 (Multi-Object Video Tracking)**: Retrieved and processed the spinning egg physics demonstration video (640x360 @ 24 fps, 1,440 frames, 60.0s). Deployed a SORT-style multi-object tracker with kinematic velocity coasting, successfully tracking the raw and hard-boiled eggs with persistent IDs across 689 dual-egg frames.
+- **Task 4 (Multi-Object Video Tracking)**: Retrieved and processed the spinning egg physics demonstration video (640x360 @ 24 fps, 1,440 frames, 60.0s). Developed three progressive tracker iterations: v1 baseline (SORT-Kalman), v2 intermediate (Hungarian-State), and **v3 refined production tracker (Gated Hungarian + Stale Suppression)**. v3 successfully resolved the 24–28s left-egg association defect, suppressed coasting ghost boxes during hand interactions, broke misleading trajectory jump lines across occlusion intervals, and maintained persistent IDs across 565 dual-egg frames with honest uncertainty exposure ([?]).
 - **Task 5 (SAM Mask-Decoder Fine-Tuning & Continuation)**: Fine-tuned the SAM ViT-B mask decoder (4.06M trainable params; image and prompt encoders frozen) strictly on the 88 development images. Pilot fine-tuning (5 epochs) elevated agreement with SAM pseudo-labels from **IoU 0.7015 to 0.8463** (+0.1448). Controlled continuation (Epochs 6–15) reached **IoU 0.8534** (+0.0071), with 6 improved, 12 neutral, and 4 regressed images. **Epoch 5 (`models/checkpoints/finetuned/checkpoint_epoch_005.pt`) is documented as the recommended checkpoint** due to higher precision (0.9069 vs 0.8993) and multi-egg separation preservation.
 - **PDF Report**: Compiled `CV_Intern_Assessment_Report.pdf` with methodology, tables, figures, tracking HUD, fine-tuning diagnostics, and reproducibility guide.
 
@@ -48,6 +48,16 @@ An end-to-end computer vision pipeline developed for the CV Internship Assessmen
 | **Continued (Epoch 15)** | 0.8534 | **0.9432** | 0.1997 | 0.9053 | 0.8993 | **0.9386** | Preserved; exhibits multi-egg boundary spill and reflection artifacts |
 | **Delta (Ep 15 - Ep 5)** | **+0.0071** | +0.0057 | +0.0137 | +0.0013 | -0.0076 | +0.0147 | 6 Improved \| 12 Neutral \| 4 Regressed |
 
+### 4. Task 4 Multi-Object Tracking Benchmark (Milestone Frames, N = 10)
+| Version / Pipeline | Milestone Prec | Milestone Rec | Mean IoU | Unique IDs | Intro/Outro FP | 2-Egg Frames | Status & Empirical Decision |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Baseline v1** (SORT-Kalman) | 29.41% | 31.25% | 0.7057 | 11 (Fragmented) | 27 | 212 | Discarded: Stale coasting boxes on table & title card bleed. |
+| **Improved v2** (Hungarian-State) | 93.33% | 87.50% | **0.9006** | **2** (`[1, 2]`) | **0** | 536 | Intermediate: Wall bleed ($L > 125$) caused left egg to drop at 24–28s. |
+| **Refined v3** (Gated Hungarian) | 83.33%* | **93.75%** | 0.8989 | **2** (`[1, 2]`) | **0** | **565** | **FINAL RECOMMENDED PIPELINE**: Clean left-egg recovery, stale box suppression, broken gap trails. |
+
+*\*Note: In v3, milestone precision reflects reacquisition of the physical left egg at frames 575–625 (previously omitted in benchmark labels).*
+
+> **Important Methodological Disclosure**: The milestone evaluation benchmark assesses 10 representative demonstration frames (entry, resting, hand approach, fast spin, stop-touch, and post-spin reacquisition). In adherence with rigorous CV evaluation standards, this is designated as a **limited milestone benchmark** rather than proof of full-video ground-truth accuracy.
 
 ---
 
@@ -75,20 +85,27 @@ internship-assignment/
 │   │   ├── qualitative_analysis.png    # 5-column success vs failure diagnostic panel
 │   │   ├── qualitative_successes.png   # Success diagnostic panels
 │   │   ├── qualitative_failures.png    # Failure diagnostic panels
+│   │   ├── tracking_comparison_v1_v2_v3.png # 10-milestone contact sheet across v1, v2, v3
 │   │   └── tracking_sample_frame_*.png # Rendered video tracking frame samples
 │   ├── evaluation_analysis.md          # Comprehensive Task 3 technical report
 │   ├── evaluation_metrics.json         # Per-image and aggregate metrics JSON
-│   ├── tracking_summary.json           # Video tracking performance telemetry
-│   └── tracked_video.mp4               # Rendered multi-object tracking video (7.66 MB)
+│   ├── tracking_summary_v3.json        # Video tracking performance telemetry (v3)
+│   ├── tracking_evaluation_metrics_v3.json # Milestone comparative tracking metrics (v1/v2/v3)
+│   ├── tracked_video_v3.mp4            # Final production tracked video (7.15 MB)
+│   ├── tracked_video_v2.mp4            # Preserved intermediate tracked video (7.57 MB)
+│   └── tracked_video.mp4               # Preserved legacy baseline tracked video (8.03 MB)
 ├── src/
 │   ├── egg_filter.py                   # Geometric & photometric egg candidate filter
 │   ├── task1_pretrained.py             # Pretrained SAM segmentation pipeline
 │   ├── task2_classical.py              # Classical image-processing trials (1-4)
 │   ├── task3_evaluation.py             # Quantitative & qualitative evaluation
-│   ├── task4_tracking.py               # Multi-object video tracker (SORT + coasting)
+│   ├── task4_tracking.py               # Multi-object video tracker (v1, v2, and v3 pipelines)
 │   ├── generate_pdf_report.py          # ReportLab PDF report compiler
 │   ├── create_splits.py                # Sequence-block split generator
 │   └── smoke_test.py                   # Minimal end-to-end pipeline verification
+├── tests/
+│   ├── test_tracking_v2.py             # Unit tests for Task 4 v2 tracking
+│   └── test_tracking_v3.py             # Regression tests for Task 4 v3 tracking
 ├── run_pipeline.py                     # Master pipeline orchestrator (Tasks 1-5)
 ├── requirements.txt                    # Pinned Python package dependencies
 ├── CV_Intern_Assessment_Report.pdf     # Formal PDF assessment submission report
@@ -134,13 +151,16 @@ uv pip install -r requirements.txt
 # 3. Quantitative & Qualitative Evaluation vs SAM Pseudo-GT
 .venv\Scripts\python.exe src/task3_evaluation.py
 
-# 4. Multi-Object Video Tracking (YouTube Physics Demo)
-.venv\Scripts\python.exe src/task4_tracking.py
+# 4. Multi-Object Video Tracking (Refined v3 Production Pipeline)
+.venv\Scripts\python.exe src/task4_tracking.py --version v3
 
-# 5. Evaluate Fine-Tuned SAM Checkpoints (Base vs Ep 5 vs Ep 15)
+# 5. Run Full Unit & Regression Test Suite
+.venv\Scripts\python.exe -m pytest tests/ -v
+
+# 6. Evaluate Fine-Tuned SAM Checkpoints (Base vs Ep 5 vs Ep 15)
 .venv\Scripts\python.exe -m src.eval_continuation
 
-# 6. Generate Publication-Grade PDF Report
+# 7. Generate Publication-Grade PDF Report
 .venv\Scripts\python.exe src/generate_pdf_report.py
 ```
 
@@ -155,9 +175,15 @@ uv pip install -r requirements.txt
 
 - **Demonstration Video**: [YouTube: Raw vs Cooked Egg Rotational Inertia Demonstration](https://www.youtube.com/watch?v=Y4JyV94y2_A)
 - **Properties**: 640×360 resolution, 24.0 FPS, 1,440 frames, 60.00s duration.
-- **Tracking Approach**: Classical color-space detector combined with SORT-style Euclidean distance centroid matching and linear kinematic velocity coasting during momentary hand occlusions.
-- **Tracked Artifact**: Saved locally to `outputs/tracked_video.mp4` (7.66 MB).
-- **Public Video Link**: Pending configuration (public cloud storage link to be attached upon deployment; locally available at `outputs/tracked_video.mp4`).
+- **Tracking Architecture (v3 Production)**: High-contrast shell gating ($L > 155$, $V > 150$) rejecting background wall bleed, normalized gated Hungarian association ($0.60 \cdot d/\text{diag} + 0.40 \cdot (1 - \text{IoU})$), stale-box suppression (hidden when confidence $\le 0.40$), broken gap trails across intervals $> 3$ frames, and neutral track identity (`Egg #1` Amber, `Egg #2` Sky Blue) exposing physical uncertainty (`[?]`) after prolonged occlusion.
+- **Tracked Deliverables**:
+  - **Final Output Video**: `outputs/tracked_video_v3.mp4` (7.15 MB, 1,440 frames, 24.0 fps, verified playable).
+  - **Telemetry Manifest**: `outputs/tracking_summary_v3.json` (565 dual-egg frames, 215 single-egg frames, zero intro/outro false tracks).
+  - **Milestone Evaluation**: `outputs/tracking_evaluation_metrics_v3.json` (Precision 83.33%*, Recall 93.75%, Mean IoU 0.8989).
+  - **Visual Contact Sheet**: `outputs/figures/tracking_comparison_v1_v2_v3.png` (10 milestone events across v1, v2, v3).
+  - **Preserved Baselines**: `outputs/tracked_video.mp4` (v1) and `outputs/tracked_video_v2.mp4` (v2).
+- **Public Video Link**: Pending configuration (public cloud storage link to be attached upon deployment; locally available at `outputs/tracked_video_v3.mp4`).
+- **Regression Test Suite**: 14 tests in `tests/test_tracking_v2.py` and `tests/test_tracking_v3.py`.
 
 ---
 

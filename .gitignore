@@ -29,6 +29,7 @@ egg.v1i.folder/
 data/task1_sam_masks/
 data/task2_classical_masks/
 outputs/tracked_video.mp4
+!outputs/tracked_video_v3.mp4
 outputs/figures/video_frames/
 
 # Scratch & Temporary Scripts

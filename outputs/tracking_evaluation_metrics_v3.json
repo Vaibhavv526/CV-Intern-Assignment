@@ -1,0 +1,260 @@
+{
+  "v1": {
+    "pipeline": "v1",
+    "total_gt_visible_milestone": 16,
+    "total_pred_detected_milestone": 17,
+    "true_positives": 5,
+    "precision": 0.2941,
+    "recall": 0.3125,
+    "mean_iou": 0.7057,
+    "id_switches_on_milestones": 2,
+    "total_unique_track_ids": 11,
+    "all_unique_track_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "false_positive_intro_outro": 27,
+    "state_frame_counts": {
+      "detected": 1478,
+      "occluded": 0,
+      "lost_or_idle": 651
+    },
+    "per_frame_details": {
+      "240": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.5215492843858656
+      },
+      "300": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.5205789601358454
+      },
+      "450": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 0,
+        "mean_iou": 0.0
+      },
+      "480": {
+        "gt_visible": 2,
+        "pred_detected": 1,
+        "matched_tp": 0,
+        "mean_iou": 0.0
+      },
+      "575": {
+        "gt_visible": 1,
+        "pred_detected": 2,
+        "matched_tp": 0,
+        "mean_iou": 0.0
+      },
+      "600": {
+        "gt_visible": 1,
+        "pred_detected": 1,
+        "matched_tp": 0,
+        "mean_iou": 0.0
+      },
+      "625": {
+        "gt_visible": 1,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.9631435537071562
+      },
+      "750": {
+        "gt_visible": 1,
+        "pred_detected": 1,
+        "matched_tp": 0,
+        "mean_iou": 0.0
+      },
+      "850": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.9313249936175645
+      },
+      "920": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.591983556012333
+      }
+    }
+  },
+  "v2": {
+    "pipeline": "v2",
+    "total_gt_visible_milestone": 16,
+    "total_pred_detected_milestone": 15,
+    "true_positives": 14,
+    "precision": 0.9333,
+    "recall": 0.875,
+    "mean_iou": 0.9006,
+    "id_switches_on_milestones": 0,
+    "total_unique_track_ids": 2,
+    "all_unique_track_ids": [
+      1,
+      2
+    ],
+    "false_positive_intro_outro": 0,
+    "state_frame_counts": {
+      "detected": 1169,
+      "occluded": 221,
+      "lost_or_idle": 660
+    },
+    "per_frame_details": {
+      "240": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.9750935382093575
+      },
+      "300": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 1.0
+      },
+      "450": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.9928571428571429
+      },
+      "480": {
+        "gt_visible": 2,
+        "pred_detected": 1,
+        "matched_tp": 1,
+        "mean_iou": 0.8611615245009074
+      },
+      "575": {
+        "gt_visible": 1,
+        "pred_detected": 1,
+        "matched_tp": 1,
+        "mean_iou": 0.9166666666666666
+      },
+      "600": {
+        "gt_visible": 1,
+        "pred_detected": 1,
+        "matched_tp": 1,
+        "mean_iou": 0.9143286573146293
+      },
+      "625": {
+        "gt_visible": 1,
+        "pred_detected": 1,
+        "matched_tp": 1,
+        "mean_iou": 0.9529479271266676
+      },
+      "750": {
+        "gt_visible": 1,
+        "pred_detected": 1,
+        "matched_tp": 1,
+        "mean_iou": 0.6416247304097772
+      },
+      "850": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.5322714681440444
+      },
+      "920": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.9267051705170517
+      }
+    }
+  },
+  "v3": {
+    "pipeline": "v3",
+    "total_gt_visible_milestone": 16,
+    "total_pred_detected_milestone": 18,
+    "true_positives": 15,
+    "precision": 0.8333,
+    "recall": 0.9375,
+    "mean_iou": 0.8989,
+    "id_switches_on_milestones": 2,
+    "total_unique_track_ids": 2,
+    "all_unique_track_ids": [
+      1,
+      2
+    ],
+    "false_positive_intro_outro": 0,
+    "state_frame_counts": {
+      "detected": 1345,
+      "occluded": 203,
+      "lost_or_idle": 224
+    },
+    "per_frame_details": {
+      "240": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.9336360991335102
+      },
+      "300": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.9579009994088012
+      },
+      "450": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.9457196112368527
+      },
+      "480": {
+        "gt_visible": 2,
+        "pred_detected": 1,
+        "matched_tp": 1,
+        "mean_iou": 0.8929219600725953
+      },
+      "575": {
+        "gt_visible": 1,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.8807915057915058
+      },
+      "600": {
+        "gt_visible": 1,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.9143286573146293
+      },
+      "625": {
+        "gt_visible": 1,
+        "pred_detected": 2,
+        "matched_tp": 1,
+        "mean_iou": 0.9550806803314436
+      },
+      "750": {
+        "gt_visible": 1,
+        "pred_detected": 1,
+        "matched_tp": 1,
+        "mean_iou": 0.7380289939961927
+      },
+      "850": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.8159164859503745
+      },
+      "920": {
+        "gt_visible": 2,
+        "pred_detected": 2,
+        "matched_tp": 2,
+        "mean_iou": 0.8979411764705882
+      }
+    }
+  }
+}

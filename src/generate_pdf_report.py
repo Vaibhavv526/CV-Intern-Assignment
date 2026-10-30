@@ -116,7 +116,9 @@ def build_pdf_report(
         "candidate filtering, high-fidelity pseudo-ground-truth masks were generated across 110 dataset images. "
         "A sequence-aware 80:20 split (88 dev : 22 eval) was established to eliminate temporal data leakage. "
         "Four progressive classical image-processing algorithms were developed and benchmarked. Finally, a multi-object "
-        "tracker was deployed to track spinning raw and hard-boiled eggs in a physics demonstration video."
+        "tracker was engineered across three iterations (v1 baseline, v2 intermediate, and v3 refined production tracker "
+        "with normalized gated Hungarian assignment, background wall rejection, stale-box suppression, and broken gap trails), "
+        "resolving hand occlusion defects and tracking spinning eggs with persistent IDs across 565 dual-egg frames."
     )
     summary_table = Table([[Paragraph(summary_text, callout_style)]], colWidths=[7.4 * inch])
     summary_table.setStyle(TableStyle([
@@ -383,27 +385,77 @@ def build_pdf_report(
 
     story.append(PageBreak())
 
-    # Section 6: Task 4 - Video Tracking
+    # Section 6: Task 4 - Video Tracking & Multi-Version Iteration Benchmark
     story.append(Paragraph("6. Task 4: Multi-Object Video Tracking (Physics Experiment)", h1_style))
     track_text = (
         "<b>Video Context & Retrieval:</b> The demonstration video (<code>https://www.youtube.com/watch?v=Y4JyV94y2_A</code>) "
         "was retrieved via yt-dlp using Android client emulation (640x360 @ 24 fps, 1,440 frames, 60.00s duration). "
         "The video illustrates rotational inertia: when spinning raw and hard-boiled eggs are briefly stopped by hand, "
         "the raw egg resumes spinning due to interior liquid momentum while the hard-boiled egg stays stationary.<br/>"
-        "<b>Tracking Architecture:</b> We deployed a <b>SORT-style Multi-Object Tracker</b> with greedy Euclidean distance matching. "
-        "Each egg is initialized with a persistent ID (Egg #1 and Egg #2), tracking spatial coordinates, velocity vectors, and motion trails. "
-        "When hands momentarily occlude the eggs or high angular velocity causes motion blur, track state is preserved via linear kinematic coasting prediction.<br/>"
-        "<b>Performance Metrics:</b> Across 1,440 processed frames, 689 frames tracked both eggs simultaneously, while single-egg coasting handled hand occlusions. "
-        "Output video exported to <code>outputs/tracked_video.mp4</code> (7.66 MB).<br/>"
-        "<b>Public Video Link:</b> Pending configuration (public cloud storage link to be attached upon deployment; locally available at <code>outputs/tracked_video.mp4</code>)."
+        "<b>Iterative Tracker Evolution:</b><br/>"
+        "&bull; <i>Baseline v1 (SORT-Kalman):</i> Global color thresholding and greedy distance matching. Suffered from 27 intro/outro false positives, ID fragmentation (#1&ndash;#11), and oversized boxes.<br/>"
+        "&bull; <i>Improved v2 (Hungarian-State):</i> Introduced tabletop ROI, skin-color rejection, and state machine (DETECTED/OCCLUDED/LOST). However, an investigation revealed that at 24&ndash;28s (frames 575&ndash;672), background wall bleed (L > 125) merged with the left egg into an oversized contour (>8000 px), dropping the left egg and stranding a coasting blue box on the right.<br/>"
+        "&bull; <i>Refined v3 (Gated Hungarian + Stale Suppression):</i> Elevated shell threshold to L > 155, eliminating wall bleed. Integrated normalized size-relative Hungarian costs (0.6*d/diag + 0.4*(1-IoU)), distance gating, stale-box suppression (hidden when confidence &le; 0.40), broken gap trails across intervals > 3 frames, and neutral track naming with uncertainty exposure ([?]).<br/>"
+        "<b>Important Methodological Disclosure:</b> The milestone evaluation evaluates 10 key representative frames "
+        "(entry, resting, hand approach, fast spin, stop-touch, and post-spin reacquisition). It serves as a limited reference "
+        "benchmark rather than proof of full-video ground-truth accuracy.<br/>"
+        "<b>Outputs & Video Link:</b> Final video exported to <code>outputs/tracked_video_v3.mp4</code> (7.15 MB, verified playable). "
+        "Baselines preserved in <code>outputs/tracked_video.mp4</code> and <code>outputs/tracked_video_v2.mp4</code>. "
+        "Hosted public video link is pending configuration (locally available in repository)."
     )
     story.append(Paragraph(track_text, body_style))
+    story.append(Spacer(1, 4))
+
+    # Comparative Tracking Table
+    tr_headers = ["Version / Method", "Milestone Prec", "Milestone Rec", "Mean IoU", "Unique IDs", "Intro/Outro FP", "2-Egg Frames", "Status & Decision"]
+    tr_data = [[Paragraph(f"<b>{h}</b>", table_header_style) for h in tr_headers]]
+    tr_data.append([
+        Paragraph("<b>Baseline v1</b> (SORT-Kalman)", table_cell_style),
+        Paragraph("29.41%", table_cell_style),
+        Paragraph("31.25%", table_cell_style),
+        Paragraph("0.7057", table_cell_style),
+        Paragraph("11 (Fragmented)", table_cell_style),
+        Paragraph("27", table_cell_style),
+        Paragraph("212", table_cell_style),
+        Paragraph("Discarded: Stale ghosts & title card bleed", table_cell_style)
+    ])
+    tr_data.append([
+        Paragraph("<b>Improved v2</b> (Hungarian-State)", table_cell_style),
+        Paragraph("93.33%", table_cell_style),
+        Paragraph("87.50%", table_cell_style),
+        Paragraph("0.9006", table_cell_style),
+        Paragraph("2 ([1, 2])", table_cell_style),
+        Paragraph("0", table_cell_style),
+        Paragraph("536", table_cell_style),
+        Paragraph("Intermediate: Missed left egg at 24-28s", table_cell_style)
+    ])
+    tr_data.append([
+        Paragraph("<b>Refined v3</b> (Gated Hungarian)", table_cell_style),
+        Paragraph("83.33%*", table_cell_style),
+        Paragraph("<b>93.75%</b>", table_cell_style),
+        Paragraph("0.8989", table_cell_style),
+        Paragraph("<b>2 ([1, 2])</b>", table_cell_style),
+        Paragraph("<b>0</b>", table_cell_style),
+        Paragraph("<b>565</b>", table_cell_style),
+        Paragraph("<b>FINAL RECOMMENDED PIPELINE</b><br/>(Clean left egg reacquisition & gap trails)", table_cell_style)
+    ])
+    t_tr = Table(tr_data, colWidths=[1.5*inch, 0.75*inch, 0.75*inch, 0.65*inch, 0.85*inch, 0.75*inch, 0.75*inch, 1.4*inch])
+    t_tr.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#1e3a8a")),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#cbd5e0")),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+        ('BACKGROUND', (0, 3), (-1, 3), colors.HexColor("#dcfce7")),
+    ]))
+    story.append(t_tr)
+    story.append(Paragraph("<font size=6.5><i>*Note: In v3, milestone precision reflects reacquisition of the physical left egg at frames 575-625 (previously omitted in benchmark labels).</i></font>", callout_style))
     story.append(Spacer(1, 6))
 
     track_sample_p = Path(figures_dir) / "tracking_sample_frame_600.png"
     if track_sample_p.exists():
         story.append(Image(str(track_sample_p), width=7.2 * inch, height=2.4 * inch))
-        story.append(Paragraph("<i>Figure 5: Multi-Object Video Tracking Output: Demonstrates persistent ID assignment (Egg #1 [Cyan], Egg #2 [Orange]), active movement trails, bounding boxes, and real-time Telemetry HUD.</i>", callout_style))
+        story.append(Paragraph("<i>Figure 5: Refined Task 4 (v3) Video Tracking Output at Frame 600 (25.0s): Demonstrates simultaneous tracking of resting egg on left (Egg #2 [Sky Blue]) and spinning egg on right (Egg #1 [Amber]), eliminating background wall bleed, stale ghost boxes, and identity confusion.</i>", callout_style))
         story.append(Spacer(1, 8))
 
     # Section 7: AI Tools Disclosure & Reproducibility
