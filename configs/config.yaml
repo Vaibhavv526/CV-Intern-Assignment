@@ -1,0 +1,27 @@
+paths:
+  dataset_dir: "egg.v1i.folder"
+  checkpoint_path: "models/checkpoints/sam_vit_b_01ec64.pth"
+  task1_output_dir: "data/task1_sam_masks"
+  task2_output_dir: "data/task2_classical_masks"
+  figures_dir: "outputs/figures"
+  splits_file: "data/splits.json"
+  eval_metrics_file: "outputs/evaluation_metrics.json"
+  tracked_video_output: "outputs/tracked_video.mp4"
+
+sam:
+  model_type: "vit_b"
+  device: "cuda"
+  points_per_side: 32
+  pred_iou_thresh: 0.88
+  stability_score_thresh: 0.92
+  min_mask_region_area: 1000
+
+egg_filter:
+  min_area: 3500           # Minimum pixel area (~0.85% of 640x640, accommodates smaller multi-egg scenes)
+  max_area: 220000         # Maximum pixel area (~53% of 640x640)
+  min_solidity: 0.84       # Convexity ratio: egg is very smooth & convex
+  min_circularity: 0.50    # 4*pi*area / perimeter^2 (allows perspective elongation)
+  min_aspect_ratio: 0.38   # Minor / major axis ratio
+  max_aspect_ratio: 0.98   # An egg is not a perfect circle
+  min_mean_brightness: 80  # Accommodates shaded, water-submerged, or low-light eggs
+  max_mean_saturation: 130 # Allows slight warm reflection from hand/countertop

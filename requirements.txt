@@ -1,0 +1,18 @@
+# Core Deep Learning & Segmentation
+torch>=2.5.1
+torchvision>=0.20.1
+segment-anything @ git+https://github.com/facebookresearch/segment-anything.git
+
+# Computer Vision & Numerical Computing
+opencv-python>=4.13.0
+numpy>=2.3.0
+scipy>=1.16.0
+matplotlib>=3.10.0
+Pillow>=11.0.0
+scikit-learn>=1.8.0
+pandas>=2.3.0
+
+# Video & Document Generation
+yt-dlp>=2026.10.26
+reportlab>=5.1.0
+PyYAML>=6.0.3

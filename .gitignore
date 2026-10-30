@@ -1,0 +1,43 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Model Checkpoints & Large Binaries
+models/checkpoints/*.pth
+models/checkpoints/*.pt
+models/checkpoints/*.bin
+models/checkpoints/finetuned/
+*.pth
+*.pt
+
+# Python Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Datasets & ZIP archives
+egg.v1i.folder/
+*.zip
+*.tar.gz
+*.mp4
+*.part
+!demo.mp4
+
+# Bulk Generated Outputs (keep configs & scripts, exclude bulk masks)
+data/task1_sam_masks/
+data/task2_classical_masks/
+outputs/tracked_video.mp4
+outputs/figures/video_frames/
+
+# Scratch & Temporary Scripts
+scratch/
+.tempmediaStorage/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

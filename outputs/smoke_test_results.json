@@ -1,0 +1,29 @@
+{
+  "param_summary": {
+    "total_params": 93735472,
+    "trainable_params": 4058340,
+    "frozen_params": 89677132,
+    "trainable_pct": 4.33,
+    "encoder_params": 89670912,
+    "prompt_params": 6220,
+    "decoder_params": 4058340
+  },
+  "smoke_test": {
+    "status": "SUCCESS",
+    "sample_stem": "not_damaged_49_jpg.rf.78a86245d3715c60d39d47045a323711",
+    "finite_loss": true,
+    "total_loss": 0.00987,
+    "bce_loss": 0.00287,
+    "dice_loss": 0.00701,
+    "decoder_params_with_grad": 114,
+    "total_decoder_params": 120,
+    "grad_norm": 1.62466,
+    "encoder_params_with_grad": 0,
+    "prompt_params_with_grad": 0,
+    "decoder_weight_delta_max": 0.00010000169277191162,
+    "encoder_weight_delta_max": 0.0,
+    "gpu_memory_allocated_mb": 452.91,
+    "gpu_memory_reserved_mb": 3144.0,
+    "checkpoint_saved": "models\\checkpoints\\finetuned\\smoke_test_ckpt.pt"
+  }
+}
